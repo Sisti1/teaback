@@ -1,0 +1,85 @@
+# Environment variables
+.env
+
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor-specific files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Binaries for Node.js
+*.exe
+*.out
+*.app
+
+# Optional coverage directory
+coverage/
+*.lcov
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Build directories
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+
+# Debugger configurations
+.vscode/
+
+# Miscellaneous
+*.swp
+*~
+
+# Testing directories
+/.nyc_output
+/.coverage
+/.test
+/.jest
+/.mocha
+
+# Serverless and cloud deployments
+.serverless/
+.lambda/
+
+# Project-related files
+*.log
+*.bak
+*.lock
+
+node_modules/
+.env
+.DS_Store
+
+
+node_modules/
