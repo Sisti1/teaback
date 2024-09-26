@@ -2,7 +2,7 @@
 .env
 
 # Node modules
-node_modules/
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -25,7 +25,7 @@ Thumbs.db
 *.sublime-project
 
 # Dependency directories
-node_modules/
+
 jspm_packages/
 
 # Optional npm cache directory
@@ -77,9 +77,9 @@ temp/
 *.bak
 *.lock
 
-node_modules/
+
 .env
 .DS_Store
 
 
-node_modules/
+/node_modules
