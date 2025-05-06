@@ -2,8 +2,6 @@
 const mongoose= require("mongoose");
 
 const Product= mongoose.Schema({
-
-
     product_name:{
         type:String ,
         required:true

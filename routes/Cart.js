@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/authMiddleware");
 
 // Protected routes for cart
 router.post("/add", authMiddleware.authenticateToken, cartController.addToCart);
+router.put("/update", authMiddleware.authenticateToken, cartController.updateCart);
 router.post("/remove", authMiddleware.authenticateToken, cartController.removeFromCart);
 router.get("/", authMiddleware.authenticateToken, cartController.getCart);
 

@@ -7,6 +7,6 @@ const authMiddleware = require("../middleware/authMiddleware");  // Import your 
 router.post('/addProduct', authMiddleware.authenticateToken, Product.addProduct);
 router.delete('/delProduct/:id', authMiddleware.authenticateToken, Product.delProduct);
 router.put('/updateProduct/:id', authMiddleware.authenticateToken, Product.updateProduct);
-router.get('/ProductList', authMiddleware.authenticateToken, Product.productList);
+router.get('/ProductList',  Product.productList);
 
 module.exports = router;

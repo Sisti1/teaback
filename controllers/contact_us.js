@@ -23,3 +23,14 @@ exports.handleContactUs = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while processing your request.' });
     }
 };
+
+// ✅ GET - retrieve all contact submissions
+exports.getContactUsMessages = async (req, res) => {
+    try {
+        const messages = await ContactUs.find().sort({ createdAt: -1 }); // sorted by newest first
+        res.status(200).json({ messages });
+    } catch (error) {
+        console.error('Error fetching contact messages:', error.message);
+        res.status(500).json({ error: 'Failed to fetch contact messages' });
+    }
+};
