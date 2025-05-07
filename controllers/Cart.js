@@ -56,20 +56,19 @@ exports.addToCart = async (req, res) => {
 
 exports.updateCart = async (req, res) => {
   try {
-    const items = req.body; // expecting: [{ product: ObjectId, quantity: Number }]
-    const userId = req.userId;
+    const { items } = req.body; // <-- fix here
 
     if (!Array.isArray(items)) {
       return res.status(400).json({ message: "Items must be an array of objects" });
     }
 
+    const userId = req.userId;
     const cart = await Cart.findOne({ user_id: userId });
 
     if (!cart) {
       return res.status(404).json({ message: "Cart not found" });
     }
 
-    // Map items to product + quantity format
     const updatedProducts = items.map(item => ({
       product: item.product,
       quantity: item.quantity || 1
@@ -86,6 +85,7 @@ exports.updateCart = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 
 // Remove a product from the cart
