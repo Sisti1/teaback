@@ -5,39 +5,46 @@ const User = require("../models/user");
 // Place an order
 exports.placeOrder = async (req, res) => {
     try {
-        const userId = req.userId; // User ID from auth middleware
-        const { status } = req.body;
-
-        // Find the user's cart
-        const cart = await Cart.findOne({ user_id: userId }).populate("products");
-
-        if (!cart || cart.products.length === 0) {
-            return res.status(400).json({ message: "Cart is empty or not found" });
-        }
-
-        // Calculate total amount
-        const totalAmount = cart.products.reduce((acc, product) => acc + product.price, 0);
-
-        // Create a new order
-        const newOrder = new Order({
-            user_id: userId,
-            order_date: new Date(),
-            cart: cart._id,
-            total_amount: totalAmount,
-            status: status || "pending",
-        });
-
-        // Save the order and clear the cart
-        await newOrder.save();
-        cart.products = [];
-        await cart.save();
-
-        res.status(201).json({ message: "Order placed successfully", order: newOrder });
+      const userId = req.userId;
+  
+      // Find the user's cart with product details
+      const cart = await Cart.findOne({ user_id: userId }).populate("products.product");
+  
+      if (!cart || cart.products.length === 0) {
+        return res.status(400).json({ message: "Cart is empty or not found" });
+      }
+  
+      // Transform cart items for the order
+      const orderItems = cart.products.map(item => ({
+        product: item.product._id,
+        quantity: item.quantity,
+        total: item.quantity * item.product.price,
+      }));
+  
+      const totalAmount = orderItems.reduce((acc, item) => acc + item.total, 0);
+  
+      // Create and save the order
+      const newOrder = new Order({
+        user_id: userId,
+        order_date: new Date(),
+        products: orderItems,
+        total_amount: totalAmount,
+        status: "pending"
+      });
+  
+      await newOrder.save();
+  
+      // Clear the cart
+      cart.products = [];
+      await cart.save();
+  
+      res.status(201).json({ message: "Order placed successfully", order: newOrder });
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+      console.error("Place Order Error:", error);
+      res.status(500).json({ message: "Server error", error });
     }
-};
-
+  };
+  
 // Get all orders for a user
 exports.getUserOrders = async (req, res) => {
     try {
