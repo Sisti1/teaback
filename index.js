@@ -1,4 +1,7 @@
 const express = require("express");
+
+const https = require('https');
+const fs = require('fs');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
@@ -36,7 +39,13 @@ app.use("/api/users", userRoutes);  // This will make routes like /api/users/reg
 
 app.use("/api/orders", orderRoutes);  // Use consistent path for order routes
 
-// Start the server
-app.listen(5200, () => {
-    console.log("Server is running on port 5200");
+const sslOptions = {
+  key: fs.readFileSync('./ssl/key.pem'),
+  cert: fs.readFileSync('./ssl/cert.pem'),
+};
+
+// Start HTTPS Server
+https.createServer(sslOptions, app).listen(5200, () => {
+  console.log(`🚀 HTTPS Server running at https://localhost:${5200}`);
+  
 });
