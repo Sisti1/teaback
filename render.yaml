@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: tea-store-backend
+    runtime: node
+    region: oregon
+    repo: https://github.com/Sisti1/teaback  
+    branch: main
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DB_CONNECTION_STRING
+        value: mongodb+srv://Srishti:keshav123@cluster0.u87vkyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: MAHAVDEV
+      - key: JWT_EXPIRES_IN
+        value: 90d
+      - key: PORT
+        value: 5000
+    plan: free

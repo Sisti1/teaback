@@ -1,51 +1,43 @@
 const express = require("express");
-
-const https = require('https');
-const fs = require('fs');
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cors = require("cors");
-require('dotenv').config();
-// Import routes
+require("dotenv").config();
+
+// Routes
 const productRouter = require("./routes/Product");
 const contactUsRouter = require("./routes/contact_us");
 const cartRoutes = require("./routes/Cart");
 const orderRoutes = require("./routes/Orders");
-const userRoutes = require("./routes/userRoutes");  // Adjust the path if necessary
-
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://Srishti:keshav123@cluster0.u87vkyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+// Database Connection
+mongoose.connect(process.env.DB_CONNECTION_STRING, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 })
-.then(() => console.log("Connected to the database"))
-.catch((err) => console.error("Database connection error:", err));
+.then(() => console.log("✅ Connected to MongoDB"))
+.catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Check if the API is working
+// Health check route
 app.get("/", (req, res) => {
-    res.json({ message: "API Working" });
+  res.json({ message: "🛍️ Tea Store API is working!" });
 });
 
-// Use routes
+// API Routes
 app.use("/product", productRouter);
 app.use("/contact", contactUsRouter);
 app.use("/cart", cartRoutes);
-app.use("/api/users", userRoutes);  // This will make routes like /api/users/register and /api/users/login accessible
+app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
-app.use("/api/orders", orderRoutes);  // Use consistent path for order routes
-
-const sslOptions = {
-  key: fs.readFileSync('./ssl/key.pem'),
-  cert: fs.readFileSync('./ssl/cert.pem'),
-};
-
-// Start HTTPS Server
-https.createServer(sslOptions, app).listen(5200, () => {
-  console.log(`🚀 HTTPS Server running at https://localhost:${5200}`);
-  
+// Server Start
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
