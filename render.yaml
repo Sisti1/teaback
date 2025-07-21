@@ -3,16 +3,17 @@ services:
     name: tea-store-backend
     runtime: node
     region: oregon
-    repo: https://github.com/Sisti1/teaback  
+    repo: https://github.com/yourusername/teabackend  # Replace with actual repo
     branch: main
+    buildCommand: npm install        # ✅ This was missing
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
       - key: DB_CONNECTION_STRING
-        value: mongodb+srv://Srishti:keshav123@cluster0.u87vkyy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        value: <Set in Render dashboard>
       - key: JWT_SECRET
-        value: MAHAVDEV
+        value: <Set in Render dashboard>
       - key: JWT_EXPIRES_IN
         value: 90d
       - key: PORT
